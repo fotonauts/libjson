@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009 Vincent Hanquez <vincent@snarc.org>
+ * Copyright (C) 2009-2011 Vincent Hanquez <vincent@snarc.org>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published
@@ -502,8 +502,8 @@ static int act_ob(json_parser *parser)
 static int act_oe(json_parser *parser)
 {
 	int ret;
-	CHK(do_callback(parser, JSON_OBJECT_END));
 	CHK(state_pop(parser, MODE_OBJECT));
+	CHK(do_callback(parser, JSON_OBJECT_END));
 	parser->expecting_key = 0;
 	return 0;
 }
@@ -519,8 +519,8 @@ static int act_ab(json_parser *parser)
 static int act_ae(json_parser *parser)
 {
 	int ret;
-	CHK(do_callback(parser, JSON_ARRAY_END));
 	CHK(state_pop(parser, MODE_ARRAY));
+	CHK(do_callback(parser, JSON_ARRAY_END));
 	return 0;
 }
 
@@ -979,7 +979,7 @@ int json_parser_dom_callback(void *userdata, int type, const char *data, size_t 
 		v = ctx->create_data(type, data, length, ctx->user_context);
 		if (!v)
 			return JSON_ERROR_CALLBACK;
-		if (ctx->append(stack->val, stack->is_object_structure, stack->structure_value_count,stack->key, stack->key_length, v, ctx->user_context) != 0)
+		if (ctx->append(stack->val, stack->is_object_structure, stack->structure_value_count, stack->key, stack->key_length, v, ctx->user_context) != 0)
 			return JSON_ERROR_CALLBACK;
 		stack->structure_value_count++;
 		free(stack->key);
