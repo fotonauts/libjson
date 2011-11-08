@@ -186,7 +186,7 @@ typedef void * (*json_parser_dom_create_data)(int, const char *, size_t, void *)
 
 /** callback from the parser helper callback to append a value to an object or array value
  * append(parent, key, key_length, val); */
-typedef int (*json_parser_dom_append)(void *, int, int, char *, size_t, void *, void *);
+typedef int (*json_parser_dom_append)(void *, char *, size_t, void *, void *);
 
 /** the json_parser_dom permits to create a DOM like tree easily through the
  * use of 3 callbacks where the user can choose the representation of the JSON values */
