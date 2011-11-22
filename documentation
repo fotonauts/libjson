@@ -450,7 +450,7 @@ the following example hook into a hypothetical framework with array and object
 special method:
 
 {{{!C
-void *tree_begin_structure(int nesting, int is_object, void *structure, int is_object_structure, const char *key, int key_length, void *user_context)
+void *tree_begin_structure(int nesting, int is_object, void *structure, int is_object_structure, const char *key, size_t key_length, int index, void *user_context)
 {
 	void *new_structure;
 
@@ -471,7 +471,7 @@ void *tree_begin_structure(int nesting, int is_object, void *structure, int is_o
 }
 
 /* this function is optional. You can set NULL instead of the function */
-int tree_end_structure(int nesting, int is_object, const char *key, int key_length, void *structure, void *user_context)
+int tree_end_structure(int nesting, int is_object, const char *key, size_t key_length, int index, void *structure, void *user_context)
 {
 	if (is_object) {
 		close_object(structure);
@@ -496,7 +496,7 @@ void *tree_create_data(int type, const char *data, uint32_t length, void *user_c
 	}
 }
 
-int tree_append(void *structure, char *key, uint32_t key_length, void *obj, void *user_context)
+int tree_append(void *structure, char *key, size_t key_length, int index, void *obj, void *user_context)
 {
 	if (is_object_structure) {
 		my_object_structure *object_structure = structure;

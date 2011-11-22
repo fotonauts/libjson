@@ -176,17 +176,17 @@ int json_print_raw(json_printer *printer, int type, const char *data, uint32_t l
 int json_print_args(json_printer *, int (*f)(json_printer *, int, const char *, size_t), ...);
 
 /** callback from the parser_dom callback to create object and array */
-typedef void * (*json_parser_dom_begin_structure)(int, int, void *, int, const char *, size_t, void *);
+typedef void * (*json_parser_dom_begin_structure)(int, int, void *, const char *, size_t, int, void *);
 
 /** callback from the parser_dom callback to create object and array */
-typedef int (*json_parser_dom_end_structure)(int, int, const char *, size_t, void *, void *);
+typedef int (*json_parser_dom_end_structure)(int, int, const char *, size_t, int, void *, void *);
 
 /** callback from the parser_dom callback to create data values */
 typedef void * (*json_parser_dom_create_data)(int, const char *, size_t, void *);
 
 /** callback from the parser helper callback to append a value to an object or array value
  * append(parent, key, key_length, val); */
-typedef int (*json_parser_dom_append)(void *, char *, size_t, void *, void *);
+typedef int (*json_parser_dom_append)(void *, char *, size_t, int, void *, void *);
 
 /** the json_parser_dom permits to create a DOM like tree easily through the
  * use of 3 callbacks where the user can choose the representation of the JSON values */
