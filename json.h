@@ -29,8 +29,8 @@ typedef unsigned __int32 uint32_t;
 #include <stdint.h>
 #endif
 
-#define JSON_MAJOR 	0
-#define JSON_MINOR	9
+#define JSON_MAJOR 	1
+#define JSON_MINOR	0
 #define JSON_VERSION	(JSON_MAJOR * 100 + JSON_MINOR)
 
 typedef enum 
@@ -78,6 +78,8 @@ typedef enum
 	JSON_ERROR_END_OF_STRUCTURE_OUT_OF_STRUCTURE,
 	/* callback returns error */
 	JSON_ERROR_CALLBACK,
+	/* utf8 stream is invalid */
+	JSON_ERROR_UTF8,
 } json_error;
 
 #define LIBJSON_DEFAULT_STACK_SIZE 256
@@ -107,6 +109,7 @@ typedef struct json_parser {
 	uint8_t state;
 	uint8_t save_state;
 	uint8_t expecting_key;
+	uint8_t utf8_multibyte_left;
 	uint16_t unicode_multi;
 	json_type type;
 
