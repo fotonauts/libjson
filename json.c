@@ -992,6 +992,7 @@ int json_parser_dom_callback(void *userdata, int type, const char *data, size_t 
 	struct json_parser_dom *ctx = userdata;
 	void *v;
 	struct stack_elem *stack = NULL;
+    struct stack_elem *previous_stack = NULL;
 
 	switch (type) {
 	case JSON_ARRAY_BEGIN:
@@ -999,7 +1000,12 @@ int json_parser_dom_callback(void *userdata, int type, const char *data, size_t 
 		if (ctx->stack_offset > 0) {
 			stack = &(ctx->stack[ctx->stack_offset - 1]);
 		}
-		v = ctx->begin_structure(ctx->stack_offset, type == JSON_OBJECT_BEGIN, stack?stack->val:NULL, stack?stack->key:NULL, stack?stack->key_length:0, stack?stack->structure_value_count:0, ctx->user_context);
+        if (ctx->stack_offset > 1) {
+            previous_stack = &(ctx->stack[ctx->stack_offset - 1]);
+        }
+		v = ctx->begin_structure(ctx->stack_offset, type == JSON_OBJECT_BEGIN, stack?stack->val:NULL, stack?stack->key:NULL, stack?stack->key_length:0, previous_stack?previous_stack->structure_value_count:0, ctx->user_context);
+        if (previous_stack)
+            previous_stack->structure_value_count++;
 		if (!v)
 			return JSON_ERROR_CALLBACK;
 		dom_push(ctx, v, type == JSON_OBJECT_BEGIN);
